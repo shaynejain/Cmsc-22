@@ -40,7 +40,7 @@ public class JainRumagueraLab2 {
 	System.out.println("[2] Numerical");
 	System.out.println("[3] Quit");
 	System.out.println();
-	System.out.println("Choose the type of data you want to summarize and present. > ");
+	System.out.println("Please choose the type of data you want: > ");
 	do {
 		try {
 			choice = input.nextInt();
@@ -60,7 +60,7 @@ public class JainRumagueraLab2 {
 
 		do {
 			System.out.println();
-			System.out.println("Enter the number of data. >");
+			System.out.println("Please enter the number of data. >");
 			try {
 				size = input.nextInt();
 				if(size < 3) {
@@ -79,7 +79,7 @@ public class JainRumagueraLab2 {
 			System.out.println("[1] Numeric Label");
 			System.out.println("[2] Alphabetic Label");
 			System.out.println("[3] String Label");
-			System.out.println("Enter the data label. > ");
+			System.out.println("Please enter the data label. > ");
 			do {
 				try {
 					label = input.nextInt();
@@ -99,7 +99,7 @@ public class JainRumagueraLab2 {
 			System.out.println();
 			System.out.println("[4] Integer Label");
 			System.out.println("[5] Float Label");
-			System.out.println("Enter the data label. > ");
+			System.out.println("Please enter the data label. > ");
 			do {
 				try {
 					label = input.nextInt();
