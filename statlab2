@@ -1,0 +1,756 @@
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
+import org.jfree.ui.RefineryUtilities;
+
+public class JainRumagueraLab2 {
+
+	private static Scanner input = new Scanner(System.in);
+	public static void simulate() {
+	int choice = 0;
+	int size = 0;
+	int label = 0;
+	int intNum = 0;
+	int repeat = 0;
+	float floatNum = 0;
+	String title = "";
+	String strCat = "";
+
+	DataSampling sample = new DataSampling();
+
+	do {
+	System.out.println("\n\n");
+	System.out.println("*** SUMMARIZING AND PRESENTING DATA ***");
+	System.out.println();
+	System.out.println("[1] Categorical");
+	System.out.println("[2] Numerical");
+	System.out.println("[3] Quit");
+	System.out.println();
+	System.out.println("Choose the type of data you want to summarize and present. > ");
+	do {
+		try {
+			choice = input.nextInt();
+			if(choice < 1 || choice > 3) {
+				throw new Exception();
+			}
+		}catch(Exception e) {
+			System.out.println("Invalid input! Please try again.");
+		}
+		input.nextLine();
+	}while(choice < 1 || choice > 3);
+
+	if(choice >= 1 && choice <= 2) {
+		System.out.println();
+		System.out.println("Enter a brief title for data description. > ");
+		title = input.nextLine();
+
+		do {
+			System.out.println();
+			System.out.println("Enter the number of data. >");
+			try {
+				size = input.nextInt();
+				if(size < 3) {
+					throw new Exception();
+				}
+			} catch(Exception e) {
+				System.out.println("Invalid input! Please try again.");
+			}
+			input.nextLine();
+		} while(size < 3);
+
+		if(choice == 1) {
+			System.out.println("\n\n");
+			System.out.println("*** CATEGORICAL DATA ***");
+			System.out.println();
+			System.out.println("[1] Numeric Label");
+			System.out.println("[2] Alphabetic Label");
+			System.out.println("[3] String Label");
+			System.out.println("Enter the data label. > ");
+			do {
+				try {
+					label = input.nextInt();
+					if(label < 1 || label > 3) {
+						throw new Exception();
+					}
+				} catch(Exception e) {
+					System.out.println("Invalid input! Please try again.");
+				}
+				input.nextLine();
+			} while(label < 1 || label > 3);
+		}
+		else
+		if(choice == 2) {
+			System.out.println("\n\n");
+			System.out.println("*** NUMERICAL DATA ***");
+			System.out.println();
+			System.out.println("[4] Integer Label");
+			System.out.println("[5] Float Label");
+			System.out.println("Enter the data label. > ");
+			do {
+				try {
+					label = input.nextInt();
+					if(label < 4 || label > 5) {
+						throw new Exception();
+					}
+				} catch(Exception e) {
+					System.out.println("Invalid input! Please try again.");
+				}
+				input.nextLine();
+			} while(label < 4 || label > 5);
+		}
+
+		sample = new DataSampling(label, title);
+
+		if(label == 1) {
+			System.out.println("\n\n");
+			System.out.println("*** CATEGORICAL DATA: Numeric Label ***");
+			for(int i = 0; i < size; i++) {
+				System.out.println("Sample " + (i + 1) + " > ");
+				do {
+					try {
+						strCat = input.next();
+						if(sample.isNumeric(strCat) == false) {
+							throw new Exception();
+						}
+					} catch(Exception e) {
+						System.out.println("Invalid input! Please try again.");
+						strCat = "";
+					}
+					input.nextLine();
+				} while(strCat == "");
+				sample.list.add(strCat);
+			}
+		}
+		else
+		if(label == 2) {
+			System.out.println("\n\n");
+			System.out.println("*** CATEGORICAL DATA: Alphabetic Label ***");
+			for(int i = 0; i < size; i++) {
+				System.out.println("Sample " + (i + 1) + " > ");
+				do {
+					try {
+						strCat = input.next();
+						if(sample.isAlphabetic(strCat) == false) {
+							throw new Exception();
+						}
+					} catch(Exception e) {
+						System.out.println("Invalid input! Please try again.");
+						strCat = "";
+					}
+					input.nextLine();
+				} while(strCat == "");
+				sample.list.add(strCat);
+			}
+		}
+		else
+		if(label == 3) {
+			System.out.println("\n\n");
+			System.out.println("*** CATEGORICAL DATA: String Label ***");
+			for(int i = 0; i < size; i++) {
+				System.out.println("Sample " + (i + 1) + " > ");
+				do {
+					try {
+						strCat = input.next();
+					} catch(Exception e) {
+						System.out.println("Invalid input! Please try again.");
+						strCat = "";
+					}
+					input.nextLine();
+				} while(strCat == "");
+				sample.list.add(strCat);
+			}
+		}
+		else
+		if(label == 4) {
+			System.out.println("\n\n");
+			System.out.println("*** NUMERICAL DATA: Integer Label");
+			for(int i = 0; i < size; i++) {
+				System.out.println("Sample " + (i + 1) + " > ");
+				do {
+					try {
+						intNum = input.nextInt();
+						if(intNum < 1) {
+							throw new Exception();
+						}
+					} catch(Exception e) {
+						System.out.println("Invalid input! Please try again.");
+					}
+					input.nextLine();
+				} while(intNum < 1);
+				sample.list.add(intNum);
+			}
+		}
+		else 
+		if(label == 5) {
+			System.out.println("\n\n");
+			System.out.println("*** NUMERICAL DATA: Float Label");
+			for(int i = 0; i < size; i++) {
+				do {
+					try {
+						System.out.println("Sample " + (i + 1) + " > ");
+						floatNum = input.nextFloat();
+						if(floatNum < 1) {
+							throw new Exception();
+						}
+					} catch(Exception e) {
+						System.out.println("Invalid input! Please try again.");
+					}
+					input.nextLine();
+				} while(floatNum < 1);
+				sample.list.add(floatNum);
+			}
+		}
+
+		sample.display();
+		System.out.println("\nPress ENTER to continue...");
+        input.nextLine();
+        try{
+          Thread.sleep(2000);
+        } catch(InterruptedException e) {
+          Thread.currentThread().interrupt();
+        }
+				
+				do {
+					if(label >= 1 && label <= 3) {
+						sample.displaySummaryTable();
+					}
+					
+					if(label == 4) {
+						int choice1 = 0;
+						sample.displayIntFDT(choice1);
+						System.out.println("\n\n");
+						System.out.println("[1] First CL");
+						System.out.println("[2] Last CL");
+						System.out.println("[3] Both CLs");
+						System.out.println("What class limit/s do you want to collapse? > ");
+						
+						do {
+							try {
+								choice1 = input.nextInt();
+								if(choice1 < 1 || choice1 > 3) {
+									throw new Exception();
+								}
+							} catch(Exception e) {
+								System.out.println("Invalid input! Please try again.");
+							}
+							input.nextLine();
+						} while(choice1 < 1 || choice1 > 3);
+						sample.displayIntFDT(choice1);
+					}
+					
+					if(label == 5) {
+						int choice2 = 0;
+						sample.displayFloatFDT(choice2);
+						System.out.println("\n\n");
+						System.out.println("[1] First CL");
+						System.out.println("[2] Last CL");
+						System.out.println("[3] Both CLs");
+						System.out.println("What class limit/s do you want to collapse? > ");
+						
+						do {
+							try {
+								choice2 = input.nextInt();
+								if(choice2 < 1 || choice2 > 3) {
+									throw new Exception();
+								}
+							} catch(Exception e) {
+								System.out.println("Invalid input! Please try again.");
+							}
+							input.nextLine();
+						} while(choice2 < 1 || choice2 > 3);
+						sample.displayFloatFDT(choice2);
+					}
+					
+					if(label >= 1 && label <= 3) {
+						int choice3 = 0;
+						System.out.println("\n\n");
+						System.out.println("Do you want to display the graph for the table?");
+						System.out.println("[1] YES \n[2] NO");
+						System.out.println("> ");
+						do {
+							try {
+								choice3 = input.nextInt();
+								if(choice3 == 1) {
+									sample.displayGraph();
+								}
+								if(choice3 < 1 || choice3 > 2) {
+									throw new Exception();
+								}
+							} catch(Exception e) {
+								System.out.println("Invalid input! Please try again.");
+							}
+							input.nextLine();
+						} while(choice3 < 1 || choice3 > 2);
+					}
+					
+					int choice4 = 0;
+					System.out.println("\n\n");
+					System.out.println("Do you want to display the table again? > ");
+					System.out.println("[1] YES \n[2] NO");
+					System.out.println("> ");
+					
+					do {
+						try {
+							choice4 = input.nextInt();
+							if(choice4 < 1 || choice4 > 2) {
+								throw new Exception();
+							}
+						} catch(Exception e) {
+							System.out.println("Invalid input! Please try again.");
+						}
+						input.nextLine();
+					} while(choice4 < 1 || choice4 > 2);
+					
+					if(choice4 == 2) {
+						repeat = 1;
+					}
+					else {
+						repeat = 0;
+					}
+				} while(repeat == 0);
+			}
+		} while(choice != 3);
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		 simulate();
+	}
+}
+
+
+class DataSampling {
+	
+	private static Scanner input = new Scanner(System.in);
+	ArrayList list;
+	String dataTitle;
+	
+	int dataType;
+  double[] percent;
+  String[] str;
+  double[] midpoint;
+  int[] count;
+	
+	public DataSampling() {
+		list = null;
+		dataTitle = "";
+		dataType = 0;
+	}
+	
+	public DataSampling(int label, String title) {
+		if(label == 1 || label == 2 || label == 3) {
+			list = new ArrayList<String>();
+		}
+		else
+		if(label == 4) {
+			list = new ArrayList<Integer>();
+		}
+		else
+		if(label == 5){
+			list = new ArrayList<Float>();
+		}
+		dataType = label;
+		dataTitle = title;
+	}
+	
+	public void display() {
+		System.out.println("\n\n");
+		System.out.println("TITLE: " + dataTitle);
+		System.out.println("===============================");
+		for(int i = 0; i < list.size(); i++){
+      System.out.print("\t[" + (i+1) + "] " + "\t\t" + list.get(i) + "\t");
+      System.out.println();
+		}
+		System.out.println("===============================");
+	}
+	
+	public void displaySummaryTable() {
+     Collections.sort(list);
+     
+     String values = "Values";
+     String per = "Percentage";
+     String total = "Total: 100";
+     ArrayList<String> temp = new ArrayList<>();
+     
+     for(int i = 0; i < list.size(); i++){
+         if(!(temp.contains(this.list.get(i)))){
+             temp.add((String) list.get(i));
+         }
+     }
+     System.out.println("Summary Table");
+     System.out.println("TITLE: " + dataTitle);
+     System.out.format("%1$12s %2$20s %n", values, per);
+     
+     String[] t1 = new String[temp.size()];
+     double[] t2 = new double[temp.size()];
+     float ff;
+     
+     for(int i = 0; i < temp.size(); i++){
+         int count = 0;
+         
+         for(int j = 0; j < list.size(); j++ ){
+             if(temp.get(i).equals(list.get(j))){
+                 count++;
+             }
+         }
+         t1[i] = (String) temp.get(i);
+         ff = (count * 100)/list.size() ;
+         t2[i] = ff;
+         System.out.println("\t" + temp.get(i)+ "\t\t"+ ff);
+     }
+     
+     System.out.format("%1$31s %n", total);
+     
+     System.out.println("");
+     System.out.println("Frequency Counts");
+     System.out.print("Value labels - ");
+     for(int i = 0; i < t1.length; i++){
+         System.out.print("\t "+ t1[i]);
+     }
+     System.out.println("");
+     System.out.print("Total        - ");
+     for(int i = 0; i < t1.length; i++){
+         System.out.print("\t "+ t2[i]);
+     }
+     System.out.println("");
+     this.str = t1;
+     this.percent = t2;
+	}
+	
+	public void displayIntFDT(int choice) {
+		System.out.println("\n\n");
+		System.out.println("Frequency Distribution Table");
+		System.out.println("TITLE: "+ dataTitle);
+    int size = list.size();
+    Collections.sort(list);
+    
+    int min = (int) list.get(0);
+    int max = (int) list.get(list.size() - 1);
+    
+    int range = max - min;
+    double m = Math.ceil(1 + (3.322 * Math.log10(size)));
+    double width = Math.ceil(range/m);
+    double[] t1 = new double[(int)m];
+    int[] t2 = new int[(int)m];
+    
+    System.out.println("CLASSES: "+ m);
+    System.out.println("RANGE: " + range);
+    System.out.println("WIDTH: "+ width);
+    
+    System.out.println("\t CL \t TRUE CL \t MIDPOINTS \t FREQ \t % \t CF \t C% ");
+    
+    int tmp = min,tmin = min;
+    int tmax, cf = 0; 
+    double c = 0.0, midpoint, percentage;
+    
+    for(int i = 0; i < m; i++){
+        int count = 0;
+        tmax = (int) (tmin + width) - 1;
+        
+        if(tmax == max-1 && i == m-1){
+            tmax = tmax + 1;
+        }
+        
+        for(int j = 0; j < list.size(); j++){
+            if((int)list.get(j) >= tmp && (int)list.get(j) <= tmax ){
+                count++;
+            }
+        }
+        
+        midpoint = (tmp + tmax) / 2.0;
+        percentage = (double)count  / (double)list.size()  * 100;
+        
+        cf = cf + count;
+        c = c + percentage;
+        
+        t1[i] =   midpoint;
+        t2[i] = count;
+        
+        String classLimit;
+        String trueClassLimit;
+        
+        if (choice == 1 && i == 0 || (choice == 3 && i == 0)) {
+            classLimit = "<" + tmax;
+            trueClassLimit = "<" + ((double) tmax + 0.5);
+        }else if (choice == 2 && i == (m - 1) || (choice == 3 && i == (m - 1))) {
+            classLimit = ">" + tmp + "";
+            trueClassLimit = ">" + ((double) tmp - 0.5);
+        }else{
+            classLimit = "" + tmp + "-" + tmax;
+            trueClassLimit = "" + ((double) tmp - 0.5) + "-" + ((double) tmax + 0.5);
+        }
+        
+        String mid = "-";
+        if(choice == 1 || choice == 2 || choice == 3) {
+          System.out.format("%1$12s %2$14s %3$11s %4$10d %5$10.1f%% %6$3d %7$10.1f%% %n", classLimit, trueClassLimit, mid, count, percentage, cf, c);
+
+        }
+        else {
+          System.out.format("%1$12s %2$14s %3$11.1f %4$10d %5$10.1f%% %6$3d %7$10.1f%% %n", classLimit, trueClassLimit, midpoint, count, percentage, cf, c);
+        }
+        
+        tmp = (int) (tmp + width );
+        tmin = (int) (tmin + width );
+    }
+    
+    System.out.println("\t    \t         \t           \t "+ list.size()+"\t100 \t  \t  ");
+     
+    int choice3 = 0;
+		System.out.println("\n\n");
+		System.out.println("Do you want to display the graph for the table?");
+		System.out.println("[1] YES \n[2] NO");
+		System.out.println("> ");
+		
+		if(!(choice >= 1 && choice <= 3)) {
+			do {
+				try {
+					choice3 = input.nextInt();
+					if(choice3 == 1) {
+						Histogram.generateChart(dataTitle, dataTitle, t1, t2, (int) width);
+					}
+					if(choice3 < 1 || choice3 > 2) {
+						throw new Exception();
+					}
+				} catch(Exception e) {
+					System.out.println("Invalid input! Please try again.");
+				}
+				input.nextLine();
+			} while(choice3 < 1 || choice3 > 2);
+		}
+	}
+	
+	public void displayFloatFDT(int choice){
+		System.out.println("\n\n");
+		System.out.println("TITLE: "+ dataTitle);
+		int size = list.size();
+		Collections.sort(list);
+		
+		float min = (float) list.get(0);
+		float max = (float) list.get(list.size() - 1);
+		
+		float range = max - min ;
+		double m = Math.ceil(1 + (3.322 * Math.log10(size)));
+		double width = (range/m);
+		
+		double[] t1 = new double[(int)m];
+		int[] t2 = new int[(int)m];
+		
+		System.out.println("CLASSES: "+ m);
+		System.out.println("RANGE: " + range);
+		System.out.println("WIDTH: "+ width);
+		
+		System.out.println("\t CL \t TRUE CL \t MIDPOINTS \t FREQ \t % \t CF \t C% ");
+		
+		float tmp = min,tmin = min;
+		int tmax, cf = 0; 
+		double c = 0.0, midpoint, percentage;
+		
+		for(int i = 0; i < m; i++){
+		    int count = 0;
+		    tmax = (int) (tmin + width - 1) ;
+		    
+		    for(int j = 0; j < list.size(); j++){
+		        if((float)list.get(j) >= tmp && (float)list.get(j) <= tmax ){
+		            count++;
+		        }
+		    }
+		    
+		    midpoint = (tmp + tmax) / 2.0;
+		    percentage = (double)count  / (double)list.size()  * 100;
+		    
+		    cf = cf + count;
+		    c = c + percentage;
+		    
+		    t1[i] =   midpoint;
+		    t2[i] = count;
+		    
+		    String classLimit;
+		    String trueClassLimit;
+		    
+		    if (choice == 1 && i == 0 || (choice == 3 && i == 0)) {
+		        classLimit = "<" + tmax;
+		        trueClassLimit = "<" + ((double) tmax + 0.05);
+		        for(int j = 0; j < t1.length; j++) {
+		        	t1[j] = 0;
+		        }
+		    }else if (choice == 2 && i == (list.size() - 1) || (choice == 3 && i == (list.size() - 1))) {
+		        classLimit = ">" + tmp + "";
+		        trueClassLimit = ">" + ((double) tmp - 0.05);
+		        for(int j = 0; j < t1.length; j++) {
+		        	t1[j] = 0;
+		        }
+		    }else{
+		        classLimit = "" + tmp + "-" + tmax;
+		        trueClassLimit = "" + ((double) tmp - 0.05) + "-" + ((double) tmax + 0.05);
+		    }
+		    
+		    if(choice == 1 || choice == 2 || choice == 3) {
+        	midpoint = 0;
+        }
+		    
+		    String mid = "-";
+        if(choice == 1 || choice == 2 || choice == 3) {
+          System.out.format("%1$12s %2$14s %3$11s %4$10d %5$10.1f%% %6$3d %7$10.1f%% %n", classLimit, trueClassLimit, mid, count, percentage, cf, c);
+
+        }
+        else {
+          System.out.format("%1$12s %2$14s %3$11.1f %4$10d %5$10.1f%% %6$3d %7$10.1f%% %n", classLimit, trueClassLimit, midpoint, count, percentage, cf, c);
+        }
+		    
+		    tmp = (int) (tmp + width );
+		    tmin = (int) (tmin + width );
+		}
+		
+		System.out.println("\t    \t         \t           \t "+ list.size()+"\t100 \t  \t  ");
+		
+		this.midpoint = t1;
+		this.count = t2;
+		
+		int choice3 = 0;
+		System.out.println("\n\n");
+		System.out.println("Do you want to display the graph for the table?");
+		System.out.println("[1] YES \n[2] NO");
+		System.out.println("> ");
+		
+		if(!(choice >= 1 && choice <= 3)) {
+			do {
+				try {
+					choice3 = input.nextInt();
+					if(choice3 == 1) {
+						Histogram.generateChart(dataTitle, dataTitle, t1, t2, (int) width);
+					}
+					if(choice3 < 1 || choice3 > 2) {
+						throw new Exception();
+					}
+				} catch(Exception e) {
+					System.out.println("Invalid input! Please try again.");
+				}
+				input.nextLine();
+			} while(choice3 < 1 || choice3 > 2);
+		}
+	}
+	
+	
+	public void displayGraph() {
+		if(dataType >= 1 || dataType <= 3) {
+			PieChart.generateChart(this.str, this.percent, dataTitle);
+		}
+	}
+	
+	public boolean isNumeric(String st) {
+		int ctr = 0;
+		for(int i = 0; i < st.length(); i++) {
+			if(st.charAt(i) == '.' && ctr == 0) {
+				ctr++;
+			}
+			else
+			if(!(st.charAt(i) >= '0' && st.charAt(i) <= '9')) {
+				return false;
+			}
+		}
+		return true;
+		
+	}
+	
+	public boolean isAlphabetic(String st) {
+		if(st.length() > 1) {
+			return false;
+		}
+		for(int i = 0; i < st.length(); i++) {
+			if(!(st.charAt(i) >= 'a' && st.charAt(i) <= 'z') && !(st.charAt(i) >= 'A' && st.charAt(i) <= 'Z')) {
+				return false;
+			}
+		}
+		return true;
+	}
+}
+
+class PieChart extends JFrame {
+
+  public PieChart(String title, String[] midpoint, double[] vert) {
+    super(title);
+    setContentPane(createDemoPanel(midpoint, vert, title));
+  }
+
+  private static PieDataset createDataset(String[] midpoint, double[] vert) {
+    DefaultPieDataset dataset = new DefaultPieDataset();
+    for (int i = 0; i < midpoint.length; i++) {
+      dataset.setValue(midpoint[i], vert[i]);
+    }
+    return dataset;
+  }
+
+  private static JFreeChart createChart(PieDataset dataset, String title) {
+    JFreeChart chart = ChartFactory.createPieChart(
+            title,
+            dataset,
+            true,
+            true,
+            true);
+    return chart;
+  }
+
+  public static JPanel createDemoPanel(String[] midpoint, double[] vert, String title) {
+    JFreeChart chart = createChart(createDataset(midpoint, vert), title);
+    return new ChartPanel(chart);
+  }
+
+  public static void generateChart(String[] midpoint, double[] vert, String desc) {
+    PieChart chart = new PieChart(desc, midpoint, vert);
+    chart.pack();
+    chart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    RefineryUtilities.centerFrameOnScreen(chart);
+    chart.setVisible(true);
+  }
+}
+
+
+class Histogram extends JFrame{
+  
+  public Histogram(String appTitle, String chartTitle, double[] midpoint, int[] freqCount, int classWidth) {
+      super(appTitle);
+      CategoryDataset dataset = createDataset(midpoint, freqCount, classWidth);
+      JFreeChart chart = createChart(dataset, chartTitle);
+      ChartPanel chartPanel = new ChartPanel(chart);
+      chartPanel.setPreferredSize(new java.awt.Dimension(500, 300));
+      setContentPane(chartPanel);
+  }
+  
+  public static void generateChart(String appTitle, String chartTitle, double[] midpoint, int[] freqCount, int classWidth) {
+  	Histogram hist = new Histogram(appTitle, chartTitle, midpoint, freqCount, classWidth);
+    hist.pack();
+    hist.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    RefineryUtilities.centerFrameOnScreen(hist);
+    hist.setVisible(true);
+  }
+
+	public CategoryDataset createDataset(double[] midpoint, int[] freqCount, int classWidth) {
+      DefaultCategoryDataset result = new DefaultCategoryDataset();
+      for (int i = 0; i < midpoint.length; i++) {
+          result.setValue(freqCount[i], "Midpoint", midpoint[i] + "");
+      }
+      return result;
+  }
+
+  public JFreeChart createChart(CategoryDataset dataset, String chartTitle) {
+      JFreeChart chart = ChartFactory.createBarChart(chartTitle, "Midpoints", "Frequency", dataset, PlotOrientation.VERTICAL, false, true, true);
+      CategoryPlot plot = chart.getCategoryPlot();
+      plot.setRangeGridlinePaint(Color.BLACK);
+      plot.getDomainAxis().setCategoryMargin(0.0);
+      return chart;
+  }
+}
